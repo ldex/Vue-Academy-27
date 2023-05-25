@@ -76,13 +76,9 @@ export default createStore({
         commit('SET_PRODUCT', p);
       }
     },
-    fetchProducts({commit}) {
-      commit('SET_LOADING_STATUS');
-      return ProductService.getProducts()
-        .then(response => {
-          commit('SET_PRODUCTS', response.data);
-        })
-        .finally(() => commit('SET_LOADING_STATUS'));
+    async fetchProducts({commit}) {
+      const response = await ProductService.getProducts()
+      commit('SET_PRODUCTS', response.data);
     }
   },
   modules: {
