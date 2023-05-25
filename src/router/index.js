@@ -4,6 +4,9 @@ import ProductsView from '@/views/ProductsView.vue';
 import ErrorView from '@/views/ErrorView.vue';
 import ProductDetails from '@/components/ProductDetails.vue';
 import ProductInsert from '@/components/ProductInsert.vue';
+import AdminView from '@/views/AdminView.vue';
+import LoginView from '@/views/LoginView.vue';
+import store from '@/store';
 
 const routes = [
   {
@@ -26,6 +29,17 @@ const routes = [
     path: '/product/insert',
     name: 'productInsert',
     component: ProductInsert
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminView,
+    meta: { requiresAuth: true }
   },
   {
     path: '/about',
@@ -51,6 +65,14 @@ function castRouteParamsId(route) {
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if(!store.getters.loggedIn) {
+      next('/login')
+    } else next()
+  } else next()
 })
 
 export default router
