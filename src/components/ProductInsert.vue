@@ -68,7 +68,6 @@
 <script>
 import { required, minLength, maxLength, between } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
-import ProductService from '@/services/ProductService.js';
 
 const validUrlRegex = /^(https?:\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,5}(?:\/\S*)?(?:[-A-Za-z0-9+&@#/%?=~_|!:,.;])+\.(?:jpg|jpeg|gif|png))$/g;
 
@@ -101,16 +100,15 @@ export default {
                     discontinued: this.product.discontinued,
                     fixedPrice: this.product.fixedPrice
                 };
-                console.log(newProduct);
-                ProductService.insertProduct(newProduct)
+                this.$store.dispatch('addProduct', newProduct)
                     .then(() => {
-                        this.$router.push({ name: "products" });
+                        this.$router.push({ name: 'products' });
                     })
                     .catch(error => {
-                        console.log("There was an error:", error.response);
+                        console.log('There was an error:', error.response)
                     });
             }
-        }
+        },
     },
     validations: {
         product: {

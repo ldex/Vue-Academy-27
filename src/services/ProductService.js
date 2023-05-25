@@ -36,6 +36,11 @@ export default {
     return apiClient.get(`${RESOURCE_NAME}/${id}`)
   },
 
+  deleteProduct(product) {
+    this.clearCache = true;
+    return apiClient.delete(`${RESOURCE_NAME}/${product.id}`)
+  },
+
   insertProduct(product) {
     this.clearCache = true;
     return apiClient.post(RESOURCE_NAME, product)
